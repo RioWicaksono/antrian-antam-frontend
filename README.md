@@ -36,6 +36,7 @@ cp .env.example .env.local
 ```
 
 Edit `.env.local`:
+
 ```env
 VITE_API_BASE_URL=http://localhost:8081/api
 VITE_WS_URL=ws://localhost:8081/ws
@@ -85,37 +86,41 @@ src/
 
 ## 🎨 Available Pages
 
-| Page | Route | Description |
-|------|-------|-------------|
-| Login | `/login` | User authentication |
-| Dashboard | `/` | Overview & statistics |
-| Tasks | `/tasks` | Task management |
-| Task Detail | `/tasks/:id` | Task details |
-| Tickets | `/tickets` | Ticket system |
-| Monitor | `/monitor` | Real-time monitoring |
-| Accounts | `/accounts` | Account management |
-| Proxies | `/proxies` | Proxy configuration |
-| Captcha DB | `/captcha-db` | Captcha database |
-| Settings | `/settings` | User settings |
+| Page        | Route         | Description           |
+| ----------- | ------------- | --------------------- |
+| Login       | `/login`      | User authentication   |
+| Dashboard   | `/`           | Overview & statistics |
+| Tasks       | `/tasks`      | Task management       |
+| Task Detail | `/tasks/:id`  | Task details          |
+| Tickets     | `/tickets`    | Ticket system         |
+| Monitor     | `/monitor`    | Real-time monitoring  |
+| Accounts    | `/accounts`   | Account management    |
+| Proxies     | `/proxies`    | Proxy configuration   |
+| Captcha DB  | `/captcha-db` | Captcha database      |
+| Settings    | `/settings`   | User settings         |
 
 ## 🛠️ Development Commands
 
 ### Start Dev Server
+
 ```bash
 npm run dev
 ```
 
 ### Build for Production
+
 ```bash
 npm run build
 ```
 
 ### Preview Production Build
+
 ```bash
 npm run preview
 ```
 
 ### Generate Icons
+
 ```bash
 npm run generate-icons
 ```
@@ -128,10 +133,10 @@ File: `src/services/api.ts`
 
 ```typescript
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || "http://localhost:8081/api",
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 ```
@@ -139,16 +144,16 @@ const api = axios.create({
 ### Example API Call
 
 ```typescript
-import { api } from '@/services/api';
+import { api } from "@/services/api";
 
 // GET request
-const response = await api.get('/dashboard/stats');
+const response = await api.get("/dashboard/stats");
 
 // POST request
-const newTask = await api.post('/tasks', { title: 'New Task' });
+const newTask = await api.post("/tasks", { title: "New Task" });
 
 // PUT request
-await api.put(`/tasks/${id}`, { status: 'completed' });
+await api.put(`/tasks/${id}`, { status: "completed" });
 
 // DELETE request
 await api.delete(`/tasks/${id}`);
@@ -159,16 +164,16 @@ await api.delete(`/tasks/${id}`);
 File: `src/services/websocket.ts`
 
 ```typescript
-import SockJS from 'sockjs-client';
-import StompJs from '@stomp/stompjs';
+import SockJS from "sockjs-client";
+import StompJs from "@stomp/stompjs";
 
 // Connection established
 stompClient.onConnect = () => {
-  console.log('WebSocket connected');
-  
+  console.log("WebSocket connected");
+
   // Subscribe to updates
-  stompClient.subscribe('/topic/tasks', (message) => {
-    console.log('Task update:', message.body);
+  stompClient.subscribe("/topic/tasks", (message) => {
+    console.log("Task update:", message.body);
   });
 };
 ```
@@ -178,12 +183,12 @@ stompClient.onConnect = () => {
 Using Zustand for state management:
 
 ```typescript
-import create from 'zustand';
+import create from "zustand";
 
 export const useAuthStore = create((set) => ({
   user: null,
   isAuthenticated: false,
-  
+
   setUser: (user) => set({ user, isAuthenticated: !!user }),
   logout: () => set({ user: null, isAuthenticated: false }),
 }));
@@ -201,10 +206,7 @@ File: `tailwind.config.js`
 
 ```javascript
 module.exports = {
-  content: [
-    "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
-  ],
+  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       colors: {
@@ -213,17 +215,19 @@ module.exports = {
     },
   },
   plugins: [],
-}
+};
 ```
 
 ## 🐳 Docker Support
 
 ### Build Docker Image
+
 ```bash
 docker build -t antrian-frontend:latest .
 ```
 
 ### Run Container
+
 ```bash
 docker run -p 3001:80 antrian-frontend:latest
 ```
@@ -249,6 +253,7 @@ VITE_APP_NAME=Antrian App
 ## 🚨 Troubleshooting
 
 ### Port 5173 Already in Use
+
 ```bash
 # Kill the process
 netstat -ano | findstr :5173
@@ -259,12 +264,15 @@ npm run dev -- --port 3000
 ```
 
 ### API Connection Error
+
 ```
 Failed to fetch from http://localhost:8081
 ```
+
 ✅ Pastikan backend running di http://localhost:8081
 
 ### Module Not Found
+
 ```bash
 # Clear node_modules dan reinstall
 rm -r node_modules package-lock.json
@@ -272,12 +280,14 @@ npm install
 ```
 
 ### Hot Module Replacement (HMR) Not Working
+
 Edit `vite.config.ts`:
+
 ```typescript
 export default defineConfig({
   server: {
     hmr: {
-      host: 'localhost',
+      host: "localhost",
       port: 5173,
     },
   },
